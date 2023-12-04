@@ -1,9 +1,13 @@
 {
-  "version": "0.0.7",
+  "version": "0.0.8",
   "name": "@intervene/backend",
   "main": "lib/main/index.js",
   "typings": "lib/main/index.d.ts",
   "module": "lib/module/index.js",
+  "exports": {
+    "import": "./lib/module/index.js",
+    "require": "./lib/main/index.js"
+  },
   "files": [
     "lib/main",
     "lib/module",
