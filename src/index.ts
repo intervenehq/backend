@@ -29,7 +29,7 @@ export class Intervene {
     });
   }
 
-  async identity(
+  async identify(
     params: paths["/v1/parser/identify"]["post"]["requestBody"]["content"]["application/json"]
   ) {
     const response = await this.ky.post("v1/parser/identify", {
