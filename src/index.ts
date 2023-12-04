@@ -65,18 +65,31 @@ export class Intervene {
     >();
   }
 
+  /**
+   * Status for Identify API job.
+   * Internally calls {@link jobStatus}
+   */
   async identifyJobStatus(jobId: string) {
     const response = await this.jobStatus(jobId);
 
     return response as IdentifyJobStatusResponse;
   }
 
+  /**
+   * Status for Execute API job.
+   * Internally calls {@link jobStatus}
+   */
   async executeJobStatus(jobId: string) {
     const response = await this.jobStatus(jobId);
 
     return response as ExecuteJobStatusResponse;
   }
 
+  /**
+   * Delete a connection between a user and a provider.
+   *
+   * For example, if you want to delete a connection for an Oauth integration, the access tokens are deleted from Intervene.
+   */
   async destroyConnection(provider: string, user_id: string) {
     const response = await this.ky.delete(
       "v1/integrations/{provider}/connections/{user_id}"
