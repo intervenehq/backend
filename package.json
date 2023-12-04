@@ -1,5 +1,5 @@
 {
-  "version": "0.0.6",
+  "version": "0.0.7",
   "name": "@intervene/backend",
   "main": "lib/main/index.js",
   "typings": "lib/main/index.d.ts",

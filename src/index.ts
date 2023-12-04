@@ -26,6 +26,7 @@ export class Intervene {
       headers: {
         Authorization: `Bearer ${this.options.privateKey}`,
       },
+      cache: "no-cache",
     });
   }
 
