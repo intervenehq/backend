@@ -8,7 +8,7 @@ export interface paths {
   "/v1/parser/identify": {
     /** @description This operation identifies a sequence of APIs (up to a maximum of 3) based on the provided objective and context. For simple, single-purpose objectives, it typically returns one API. However, for more complex objectives that may seem simple but require multiple steps, it can return up to three APIs. */
     post: {
-      requestBody?: {
+      requestBody: {
         content: {
           "application/json": {
             user_id: components["schemas"]["user_id"];
@@ -30,7 +30,7 @@ export interface paths {
         200: {
           content: {
             "application/json": {
-              job_id?: components["schemas"]["job_id"];
+              job_id: components["schemas"]["job_id"];
             };
           };
         };
@@ -40,7 +40,7 @@ export interface paths {
   "/v1/parser/execute": {
     /** @description Execute API. This API executes the matching API for the given objective and context. */
     post: {
-      requestBody?: {
+      requestBody: {
         content: {
           "application/json": {
             user_id: components["schemas"]["user_id"];
@@ -56,7 +56,7 @@ export interface paths {
         200: {
           content: {
             "application/json": {
-              job_id?: components["schemas"]["job_id"];
+              job_id: components["schemas"]["job_id"];
             };
           };
         };
@@ -120,7 +120,7 @@ export interface paths {
           content: {
             "application/json": {
               /** @enum {string} */
-              status?: "ok";
+              status: "ok";
             };
           };
         };
@@ -143,24 +143,24 @@ export interface components {
     context: Record<string, never>;
     match: {
       /** @description The specific path of the API endpoint being called. */
-      path?: string;
+      path: string;
       /**
        * @description The HTTP method used for the API call. This can be one of the following: 'get', 'put', 'post', 'delete', 'options', 'head', 'patch', 'trace'.
        * @enum {string}
        */
-      httpMethod?: "get" | "put" | "post" | "delete" | "options" | "head" | "patch" | "trace";
+      httpMethod: "get" | "put" | "post" | "delete" | "options" | "head" | "patch" | "trace";
       /** @description A brief description of the API endpoint's functionality. */
-      description?: string;
+      description: string;
       /** @description Indicates whether the user has granted authorization for this API. */
-      authorized?: boolean;
+      authorized: boolean;
       /** @description A list of provider IDs that offer this API. Typically, this is a single-item array. */
-      providers?: string[];
+      providers: string[];
       /** @description A unique identifier for this API. This can be used to construct the context object for subsequent API calls. */
-      id?: string;
+      id: string;
       /** @description The ID of the API specification that matches the user's objective. This is primarily used by Intervene and may not be relevant for external use. */
-      apiSpecId?: string;
+      apiSpecId: string;
       /** @description A list of authorized scopes required for this API. Each scope is formatted as `<apiSpecId>:<original scope>`. */
-      scopes?: string[];
+      scopes: string[];
     };
     /** @description The job id returned by the identify or execute API. Use the [Job Status API](/rest/status) to get the status/result of the job. */
     job_id: string;
@@ -170,13 +170,13 @@ export interface components {
      */
     parser_execute_result: {
       /** @description The URI of the API called */
-      uri?: string;
+      uri: string;
       /** @description The response body of the API call */
-      body?: string | Record<string, never>;
+      body: string | Record<string, never>;
       /** @description The response code of the API call */
-      code?: number;
+      code: number;
       /** @description The response headers of the API call */
-      headers?: Record<string, never>;
+      headers: Record<string, never>;
     };
     /**
      * Identify API Result
@@ -184,8 +184,8 @@ export interface components {
      */
     parser_identify_result: {
       /** @description Options for identified APIs. **Currently it only returns a single option** */
-      matches?: {
-          0?: components["schemas"]["match"];
+      matches: {
+          0: components["schemas"]["match"];
         }[];
     };
     /**
@@ -194,7 +194,7 @@ export interface components {
      */
     parser_error_result: {
       /** @description The error message */
-      error?: string | Record<string, never>;
+      error: string | Record<string, never>;
     };
   };
   responses: never;

@@ -1,5 +1,6 @@
-import axios from "axios";
-import { paths, components } from "../types/schema";
+import $ky from "ky";
+import { paths, components } from "./types/schema";
+import { Simplify } from "type-fest";
 
 export interface InterveneClientOptions {
   privateKey: string;
@@ -17,34 +18,51 @@ interface ExecuteJobStatusResponse extends Omit<JobStatusResponse, "result"> {
 }
 
 export class Intervene {
+  private ky: typeof $ky;
+
   constructor(public options: InterveneClientOptions) {
-    axios.defaults.headers["Authorization"] =
-      `Bearer ${this.options.privateKey}`;
-    axios.defaults.baseURL = this.options.host ?? "https://api.intervene.run";
+    this.ky = $ky.create({
+      prefixUrl: this.options.host ?? "https://api.intervene.run",
+      headers: {
+        Authorization: `Bearer ${this.options.privateKey}`,
+      },
+    });
   }
 
-  async identity(params: paths["/v1/parser/identify"]["post"]["requestBody"]) {
-    const response = await axios.post<
+  async identity(
+    params: paths["/v1/parser/identify"]["post"]["requestBody"]["content"]["application/json"]
+  ) {
+    const response = await this.ky.post("v1/parser/identify", {
+      json: params,
+    });
+
+    return await response.json<
       paths["/v1/parser/identify"]["post"]["responses"]["200"]["content"]["application/json"]
-    >("/v1/parser/identify", params);
-
-    return response.data;
+    >();
   }
 
-  async execute(params: paths["/v1/parser/execute"]["post"]["requestBody"]) {
-    const response = await axios.post<
-      paths["/v1/parser/execute"]["post"]["responses"]["200"]["content"]["application/json"]
-    >("/v1/parser/execute", params);
+  async execute(
+    params: Simplify<
+      paths["/v1/parser/execute"]["post"]["requestBody"]["content"]["application/json"]
+    >
+  ) {
+    const response = await this.ky.post("v1/parser/execute", {
+      json: params,
+    });
 
-    return response.data;
+    return await response.json<
+      paths["/v1/parser/execute"]["post"]["responses"]["200"]["content"]["application/json"]
+    >();
   }
 
   async jobStatus(jobId: string) {
-    const response = await axios.post<
-      paths["/v1/parser/{job_id}/status"]["get"]["responses"]["200"]["content"]["application/json"]
-    >("/v1/parser/{job_id}/status".replace("{job_id}", jobId));
+    const response = await this.ky.get(
+      "v1/parser/{job_id}/status".replace("{job_id}", jobId)
+    );
 
-    return response.data;
+    return await response.json<
+      paths["/v1/parser/{job_id}/status"]["get"]["responses"]["200"]["content"]["application/json"]
+    >();
   }
 
   async identifyJobStatus(jobId: string) {
@@ -60,14 +78,24 @@ export class Intervene {
   }
 
   async destroyConnection(provider: string, user_id: string) {
-    const response = await axios.delete<
-      paths["/v1/integrations/{provider}/connections/{user_id}"]["delete"]["responses"]["200"]["content"]["application/json"]
-    >(
-      "/v1/integrations/{provider}/connections/{user_id}"
+    const response = await this.ky.delete(
+      "v1/integrations/{provider}/connections/{user_id}"
         .replace("{provider}", provider)
         .replace("{user_id}", user_id)
     );
 
-    return response.data;
+    return await response.json<
+      paths["/v1/integrations/{provider}/connections/{user_id}"]["delete"]["responses"]["200"]["content"]["application/json"]
+    >();
+  }
+
+  async generateHmacDigest(provider: string, user_id: string) {
+    const response = await this.ky.post(
+      "v1/integrations/{provider}/connections/{user_id}/hmac_digest"
+        .replace("{provider}", provider)
+        .replace("{user_id}", user_id)
+    );
+
+    return await response.text();
   }
 }

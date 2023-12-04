@@ -39,9 +39,9 @@
     // "emitDecoratorMetadata": true /* Enables experimental support for emitting type metadata for decorators. */,
 
     "lib": ["es2017", "DOM"],
-    "typeRoots": ["node_modules/@types"]
+    "types": ["bun-types"]
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts"],
   "exclude": ["node_modules/**"],
   "compileOnSave": false
 }
