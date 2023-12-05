@@ -1,11 +1,12 @@
 {
-  "version": "0.0.11",
+  "version": "0.0.12",
   "name": "@intervene/backend",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.modern.js",
   "umd:main": "./dist/index.umd.js",
   "exports": {
+    "types": "./dist/index.d.ts",
     "require": "./dist/index.cjs",
     "default": "./dist/index.modern.js"
   },
