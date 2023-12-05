@@ -1,17 +1,15 @@
 {
-  "version": "0.0.10",
+  "version": "0.0.11",
   "name": "@intervene/backend",
   "type": "module",
-  "source": "src/index.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.modern.js",
+  "umd:main": "./dist/index.umd.js",
   "exports": {
-    "types": "./dist/index.d.ts",
     "require": "./dist/index.cjs",
     "default": "./dist/index.modern.js"
   },
   "types": "./dist/index.d.ts",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.module.js",
-  "unpkg": "./dist/index.umd.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/intervenehq/backend"
@@ -28,9 +26,9 @@
     "access": "public"
   },
   "scripts": {
-    "typegen": "bun run openapi-typescript /Users/sudhanshugautam/workspace/intervene-landing/docs/openapi.json -o ./src/types/schema.ts",
-    "build": "microbundle",
-    "dev": "microbundle watch"
+    "typegen": "bun run openapi-typescript https://intervene.run/openapi.json -o ./src/types/schema.ts",
+    "build": "microbundle --tsconfig ./tsconfig.json  --format modern,cjs,umd  --output dist/index.js",
+    "dev": "microbundle watch --tsconfig ./tsconfig.json  --format modern,cjs,umd  --output dist/index.js"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^6.9.0",
@@ -39,6 +37,7 @@
     "eslint": "^8.52.0",
     "eslint-config-prettier": "^9.0.0",
     "microbundle": "^0.15.1",
+    "openapi-typescript": "^6.7.2",
     "prettier": "^3.0.3",
     "type-fest": "^4.8.3"
   },
@@ -46,7 +45,6 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "ky": "^1.1.3",
-    "openapi-typescript": "^6.7.2"
+    "ky": "^1.1.3"
   }
 }
