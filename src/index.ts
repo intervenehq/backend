@@ -104,12 +104,12 @@ export class Intervene {
   }
 
   async generateHmacDigest(provider: string, user_id: string) {
-    const response = await this.ky.post(
+    const response = await this.ky.get(
       "v1/integrations/{provider}/connections/{user_id}/hmac_digest"
         .replace("{provider}", provider)
         .replace("{user_id}", user_id)
     );
 
-    return await response.text();
+    return (await response.text()) as paths["/v1/integrations/{provider}/connections/{user_id}/hmac_digest"]["get"]["responses"]["200"]["content"]["text/plain"];
   }
 }
